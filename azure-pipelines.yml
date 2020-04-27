@@ -43,11 +43,12 @@ stages:
       displayName: 'Publish pipeline artifacts'
       inputs:
         targetPath: $(Build.ArtifactStagingDirectory)
-
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'Free Trial(babe09b2-b3bf-4073-a221-ed6c6ae0589c)'
-    appType: 'webAppLinux'
-    WebAppName: 'katha'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war/jar'
+        
+      settings  
+     - task: AzureRmWebAppDeployment@4
+       inputs:
+         ConnectionType: 'AzureRM'
+         azureSubscription: 'Free Trial(babe09b2-b3bf-4073-a221-ed6c6ae0589c)'
+         appType: 'webAppLinux'
+         WebAppName: 'katha'
+         packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war/jar'
