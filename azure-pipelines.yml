@@ -43,8 +43,17 @@ stages:
       displayName: 'Publish pipeline artifacts'
       inputs:
         targetPath: $(Build.ArtifactStagingDirectory)
+
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'mayservconn'
+        appType: 'webAppLinux'
+        WebAppName: 'katha'
+        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war/jar'
+        RuntimeStack: 'TOMCAT|8.5-java11'
         
-     
-    
+       
+
 
 
