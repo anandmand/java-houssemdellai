@@ -9,7 +9,7 @@ trigger:
 variables:
 
 # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'babe09b2-b3bf-4073-a221-ed6c6ae0589c'
+  azureSubscription: '0e0f68b4-e843-47e7-8931-d8c41dcda95e'
   
   # Web app name
   webAppName: 'katha'
@@ -47,7 +47,7 @@ stages:
      - task: AzureRmWebAppDeployment@4
        inputs:
          ConnectionType: 'AzureRM'
-         azureSubscription: 'Free Trial(babe09b2-b3bf-4073-a221-ed6c6ae0589c)'
+         azureSubscription: 'Free Trial(0e0f68b4-e843-47e7-8931-d8c41dcda95e)'
          appType: 'webAppLinux'
          WebAppName: 'katha'
          packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war/jar'
