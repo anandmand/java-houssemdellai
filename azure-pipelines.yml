@@ -44,14 +44,14 @@ stages:
       inputs:
         targetPath: $(Build.ArtifactStagingDirectory)
 
-    # - task: AzureRmWebAppDeployment@4
-    #   inputs:
-    #     ConnectionType: 'AzureRM'
-    #     azureSubscription: 'mayservconn'
-    #     appType: 'webAppLinux'
-    #     WebAppName: 'katha'
-    #     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war/jar'
-    #     RuntimeStack: 'TOMCAT|8.5-java11'
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'mayservconn'
+        appType: 'webAppLinux'
+        WebAppName: 'katha'
+        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war/home/vsts/work/1/s/app/target/gs-spring-boot-0.1.0.jar'
+        RuntimeStack: 'TOMCAT|8.5-java11'
         
        
 
