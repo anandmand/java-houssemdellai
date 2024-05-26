@@ -8,52 +8,66 @@ trigger:
 
 variables:
 
-# Azure Resource Manager connection created during pipeline creation
-  azureSubscription: '0e0f68b4-e843-47e7-8931-d8c41dcda95e'
-  
-  # Web app name
-  webAppName: 'katha'
-
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+ azureSubscription: ''
+ webappName: ''
+ environmentName: ''
+ vmImage: ''
 
 stages:
-- stage: Build
-  displayName: Build stage
-  jobs:
-  - job: MavenPackageAndPublishArtifacts
-    displayName: Maven Package and Publish Artifacts
-    pool:
-      vmImage: $(vmImageName)
+  - stage: Build
+    displayName: Build
+    jobs:
+      - job: MavenPackageAndPublishArtifacts
+        displayName: 'Maven Package'
+        pool:
+          vmImage: $ $(vmImage)
+
+        steps:
+          
+            - task: Maven@4
+              inputs:
+                mavenPomFile: 'pom.xml'
+                goals: 'validate'
+                publishJUnitResults: true
+                testResultsFiles: '**/surefire-reports/TEST-*.xml'
+                javaHomeOption: 'JDKVersion'
+                mavenVersionOption: 'Default'
+                mavenAuthenticateFeed: false
+                effectivePomSkip: false
+                sonarQubeRunAnalysis: false
+            - task: Maven@4
+              inputs:
+                mavenPomFile: 'pom.xml'
+                goals: 'compile'
+                publishJUnitResults: true
+                testResultsFiles: '**/surefire-reports/TEST-*.xml'
+                javaHomeOption: 'JDKVersion'
+                mavenVersionOption: 'Default'
+                mavenAuthenticateFeed: false
+                effectivePomSkip: false
+                sonarQubeRunAnalysis: false
+            - task: Maven@4
+              inputs:
+                mavenPomFile: 'pom.xml'
+                goals: 'test'
+                publishJUnitResults: true
+                testResultsFiles: '**/surefire-reports/TEST-*.xml'
+                javaHomeOption: 'JDKVersion'
+                mavenVersionOption: 'Default'
+                mavenAuthenticateFeed: false
+                effectivePomSkip: false
+                sonarQubeRunAnalysis: false
+            - task: Maven@4
+              inputs:
+                mavenPomFile: 'pom.xml'
+                publishJUnitResults: true
+                testResultsFiles: '**/surefire-reports/TEST-*.xml'
+                javaHomeOption: 'JDKVersion'
+                mavenVersionOption: 'Default'
+                mavenAuthenticateFeed: false
+                effectivePomSkip: false
+                sonarQubeRunAnalysis: false 
+           
+
     
-    steps:
-    - task: Maven@3
-      displayName: 'Maven Package'
-      inputs:
-        mavenPomFile: 'app/pom.xml'
-
-    - task: CopyFiles@2
-      displayName: 'Copy Files to artifact staging directory'
-      inputs:
-        SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: '**/target/*.?(war|jar)'
-        TargetFolder: $(Build.ArtifactStagingDirectory)
-
-    - task: PublishPipelineArtifact@0
-      displayName: 'Publish pipeline artifacts'
-      inputs:
-        targetPath: $(Build.ArtifactStagingDirectory)
-
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'mayservconn'
-        appType: 'webAppLinux'
-        WebAppName: 'katha'
-        packageForLinux: '$(Build.ArtifactStagingDirectory)/**/gs-spring-boot-0.1.0.jar'
-        RuntimeStack: 'TOMCAT|8.5-java11'
-        
-       
-
-
-
+    
