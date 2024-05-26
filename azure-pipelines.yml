@@ -50,7 +50,7 @@ stages:
         azureSubscription: 'mayservconn'
         appType: 'webAppLinux'
         WebAppName: 'katha'
-        packageForLinux: '$(System.DefaultWorkingDirectory)/**/home/vsts/work/1/s/app/target/gs-spring-boot-0.1.0.jar'
+        packageForLinux: '$(Build.ArtifactStagingDirectory)/**/gs-spring-boot-0.1.0.jar'
         RuntimeStack: 'TOMCAT|8.5-java11'
         
        
